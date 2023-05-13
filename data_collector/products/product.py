@@ -9,12 +9,12 @@ class Product:
     rating: Optional[str]
     rating_count: Optional[str]
 
-    def __init__(self, name, price, rating, rating_count) -> None:
+    def __init__(self, name, price, rating, rating_count, timestamp=None) -> None:
         self.name = name
         self.price = price
         self.rating = rating
         self.rating_count = rating_count
-        self.timestamp = self.generate_random_timestamp()
+        self.timestamp = self.generate_random_timestamp() if not timestamp else timestamp
 
     @staticmethod
     def generate_random_timestamp():

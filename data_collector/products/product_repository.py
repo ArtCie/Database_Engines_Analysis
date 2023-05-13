@@ -1,6 +1,7 @@
 from typing import List
 from data_collector.products.product import Product
 
+
 class ProductRepository:
     _product_repository: List[Product]
 

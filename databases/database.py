@@ -15,5 +15,9 @@ class Database(ABC):
         pass
 
     @abstractmethod
-    def update_database(self, connection) -> None:
+    def update_database(self, connection, query) -> None:
+        pass
+
+    @abstractmethod
+    def select_from_database(self, connection, query) -> None:
         pass

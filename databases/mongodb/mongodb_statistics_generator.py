@@ -36,50 +36,64 @@ class MongoDbStatisticsGenerator(MongodbManager):
     @staticmethod
     def _get_count_time(collection):
         start_time = time()
-        # TODO
-        # print(f"MongoDB Count -> {collection.fetchall()}")
+        count = collection.count_documents({})
+        print(f"MongoDB Count -> {count}")
         return time() - start_time
 
     @staticmethod
-    def _get_median_time(collection):
+    def _get_median_time(cursor):
         start_time = time()
-        # TODO
-        # print(f"MongoDB Median -> {collection.fetchall()}")
+        pipeline = [
+            {"$sort": {"rating_count": 1}},
+            {"$group": {"_id": None, "median": {"$avg": "$rating_count"}}}
+        ]
+        result = cursor.aggregate(pipeline)
+        median = result.next()["median"]
+        print(f"MongoDB Median -> {median}")
         return time() - start_time
 
     @staticmethod
     def _get_average_time(collection):
         start_time = time()
-        # TODO
-        # print(f"MongoDB Average -> {collection.fetchall()}")
+        pipeline = [
+            {"$group": {"_id": None, "average": {"$avg": "$rating_count"}}}
+        ]
+        result = collection.aggregate(pipeline)
+        average = result.next()["average"]
+        print(f"MongoDB Average -> {average}")
         return time() - start_time
 
     @staticmethod
     def _get_select_time(collection):
         start_time = time()
-        # TODO
-        # print(f"MongoDB Median -> {collection.rowcount}")
+        collection.find({})
+        print(f"MongoDB Count -> finished")
         return time() - start_time
 
     @staticmethod
     def _get_update_time(collection):
         start_time = time()
-        # TODO
-        # print(f"MongoDB Update -> {collection.rowcount}")
+        update_query = {"$set": {"rating": 2.0}}
+        result = collection.update_many({}, update_query)
+        print(f"MongoDB Update -> {result.modified_count}")
         return time() - start_time
 
     @staticmethod
     def _get_aggregation_time(collection):
         start_time = time()
-        # TODO
-        # print(f"MongoDB Aggregation -> {collection.rowcount}")
+        pipeline = [
+            {"$group": {"_id": "$rating_count", "total_price": {"$sum": "$price"}}}
+        ]
+        result = collection.aggregate(pipeline)
+        count = len(list(result))
+        print(f"MongoDB Aggregation -> {count}")
         return time() - start_time
 
     @staticmethod
     def _get_sort_time(collection):
         start_time = time()
-        # TODO
-        # print(f"MongoDB Sort -> {collection.rowcount}")
+        result = collection.find().sort("timestamp", -1)
+        print(f"MongoDB Sort -> finished")
         return time() - start_time
 
     @staticmethod

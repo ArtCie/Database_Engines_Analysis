@@ -25,11 +25,12 @@ class PostgresqlManager(Database):
 
     @measure_time
     def insert_database(self, cursor, data) -> None:
-        # for i in range(1000):
-        query = "INSERT INTO PRODUCTS(name, price, rating, rating_count, timestamp) VALUES "
-        for record in data:
-            query += f"('{record.name}', {record.price}, {record.rating}, {record.rating_count}, '{record.timestamp}'), "
-        cursor.execute(query[:-2])
+        for i in range(1000):
+            print(f"{i} - postgresql")
+            query = "INSERT INTO PRODUCTS(name, price, rating, rating_count, timestamp) VALUES "
+            for record in data:
+                query += f"('{record.name}', {record.price}, {record.rating}, {record.rating_count}, '{record.timestamp}'), "
+            cursor.execute(query[:-2])
 
     def update_database(self, cursor, query) -> None:
         query = query[0][1]

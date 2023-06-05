@@ -19,17 +19,18 @@ class MongodbManager(Database):
     def insert_database(self, collection, data) -> None:
         insert_data = []
         collection.drop()
-        # for i in range(1000):
-        for index, record in enumerate(data):
-            insert_data.append({
-                "_id": str(uuid4()),
-                "name": record.name,
-                "price": float(record.price),
-                "rating": float(record.rating),
-                "rating_count": int(record.rating_count),
-                "timestamp": record.timestamp
-            })
-        collection.insert_many(insert_data)
+        for i in range(1000):
+            print(f"{i} - mongodb")
+            for index, record in enumerate(data):
+                insert_data.append({
+                    "_id": str(uuid4()),
+                    "name": record.name,
+                    "price": float(record.price),
+                    "rating": float(record.rating),
+                    "rating_count": int(record.rating_count),
+                    "timestamp": record.timestamp
+                })
+            collection.insert_many(insert_data)
 
     def update_database(self, collection, args) -> None:
         query = args[0][1]

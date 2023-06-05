@@ -14,8 +14,8 @@ class StatisticsHandler:
 
         self.statistics_generators = [
             # PostgresqlStatisticsGenerator(),
-            # MongoDbStatisticsGenerator(PostgresqlStatisticsGenerator()),
-            DynamodbStatisticsGenerator(PostgresqlStatisticsGenerator())
+            MongoDbStatisticsGenerator(PostgresqlStatisticsGenerator()),
+            # DynamodbStatisticsGenerator(PostgresqlStatisticsGenerator())
         ]
 
     @staticmethod

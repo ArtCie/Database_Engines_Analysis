@@ -54,7 +54,7 @@ class PostgresqlStatisticsGenerator(PostgresqlManager):
         start_time = time()
         query = """SELECT * FROM products"""
         cursor.execute(query)
-        print(f"PostgreSQL Median -> {cursor.rowcount}")
+        print(f"PostgreSQL Select -> {cursor.rowcount}")
         return time() - start_time
 
     @staticmethod

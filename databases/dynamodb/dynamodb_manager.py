@@ -42,22 +42,24 @@ class DynamodbManager(Database):
     @measure_time
     def insert_database(self, client, data) -> None:
         request_items = {'products': []}
-        for record in data:
-            request_items['products'].append({
-                'PutRequest': {
-                    'Item': {
-                        "_id": str(uuid4()),
-                        "name": record.name,
-                        "price": Decimal(record.price),
-                        "rating": Decimal(record.rating),
-                        "rating_count": int(record.rating_count),
-                        "timestamp": str(record.timestamp)
+        for i in range(1000):
+            print(f"{i} - dynamo")
+            for record in data:
+                request_items['products'].append({
+                    'PutRequest': {
+                        'Item': {
+                            "_id": str(uuid4()),
+                            "name": record.name,
+                            "price": Decimal(record.price),
+                            "rating": Decimal(record.rating),
+                            "rating_count": int(record.rating_count),
+                            "timestamp": str(record.timestamp)
+                        }
                     }
-                }
-            })
-            if len(request_items['products']) == 25:
-                client.batch_write_item(RequestItems=request_items)
-                request_items['products'] = []
+                })
+                if len(request_items['products']) == 25:
+                    client.batch_write_item(RequestItems=request_items)
+                    request_items['products'] = []
 
     def update_database(self, client, query) -> None:
         query = query[0][1]
